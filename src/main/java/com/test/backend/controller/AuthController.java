@@ -7,13 +7,18 @@ import com.test.backend.dto.Response.ApiResponse;
 import com.test.backend.dto.Response.AuthResponse;
 import com.test.backend.dto.Response.UserResponse;
 import com.test.backend.service.AuthService;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Tag(name = "Auth", description = "Authentication endpoints")
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
@@ -21,6 +26,13 @@ public class AuthController {
 
     private final AuthService authService;
 
+    @Operation(summary = "Register new user",responses = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Success",
+                    content = @Content(examples = @ExampleObject(value = """
+                    {"success": true, "data": {"accessToken": "eyJ..."}}
+                """))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "409", description = "Email already exists")
+    })
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<AuthResponse>> register(
             @Valid @RequestBody RegisterRequest request) {
@@ -30,6 +42,13 @@ public class AuthController {
                 .body(ApiResponse.success(data, "Registered successfully"));
     }
 
+    @Operation(summary = "Login",responses = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Success",
+                    content = @Content(examples = @ExampleObject(value = """
+                    {"success": true, "data": {"accessToken": "eyJ...", "refreshToken": "eyJ..."}}
+                """))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Wrong credentials")
+    })
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<AuthResponse>> login(
             @Valid @RequestBody LoginRequest request) {

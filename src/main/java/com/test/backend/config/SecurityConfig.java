@@ -33,7 +33,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // public routes
                         .requestMatchers("/api/auth/register", "/api/auth/login","/api/auth/refresh").permitAll()
-                        .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/api-docs/**").permitAll()
+                        .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**",
+                                "/v3/api-docs").permitAll()
                         // admin only
                         .requestMatchers(HttpMethod.GET, "/api/users").hasAuthority("admin")
                         .requestMatchers(HttpMethod.DELETE, "/api/users/**").hasAuthority("admin")
