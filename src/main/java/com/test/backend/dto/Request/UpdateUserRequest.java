@@ -1,9 +1,11 @@
 package com.test.backend.dto.Request;
 
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class UpdateUserRequest {
 
     @Size(min = 2, max = 100, message = "Name must be 2-100 characters")
