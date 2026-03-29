@@ -35,9 +35,9 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/register", "/api/auth/login","/api/auth/refresh").permitAll()
                         .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/api-docs/**").permitAll()
                         // admin only
-                        .requestMatchers(HttpMethod.GET, "/api/users").hasRole("admin")
-                        .requestMatchers(HttpMethod.DELETE, "/api/users/**").hasRole("admin")
-                        .requestMatchers(HttpMethod.PATCH, "/api/users/*/status").hasRole("admin")
+                        .requestMatchers(HttpMethod.GET, "/api/users").hasAuthority("admin")
+                        .requestMatchers(HttpMethod.DELETE, "/api/users/**").hasAuthority("admin")
+                        .requestMatchers(HttpMethod.PATCH, "/api/users/*/status").hasAuthority("admin")
                         // any logged-in user
                         .anyRequest().authenticated()
                 )

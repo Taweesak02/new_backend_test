@@ -12,7 +12,7 @@ target/
 .settings
 .springBeans
 .sts4-cache
-.env
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Ignore environment specific files
+.env

@@ -50,7 +50,7 @@ public class UserService {
 
         if (role != null && !role.isEmpty()) {
             spec = spec.and((root, query, cb) ->
-                    cb.equal(root.get("role"), Role.valueOf(role.toUpperCase())));
+                    cb.equal(root.get("role"), Role.valueOf(role)));
         }
 
         Page<User> userPage = userRepository.findAll(spec, pageable);
@@ -112,7 +112,7 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         boolean isAdmin = userDetails.getAuthorities().stream()
-                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+                .anyMatch(a -> a.getAuthority().equals("admin"));
         boolean isOwner = user.getEmail().equals(userDetails.getUsername());
 
         if (!isAdmin && !isOwner) {
