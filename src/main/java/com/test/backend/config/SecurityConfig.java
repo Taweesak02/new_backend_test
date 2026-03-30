@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -56,7 +57,7 @@ public class SecurityConfig {
                         .accessDeniedHandler((request, response, accessDeniedException) -> {
                             handlerExceptionResolver.resolveException(
                                     request, response, null,
-                                    accessDeniedException   // AccessDeniedException — already handled
+                                    new AccessDeniedException(accessDeniedException.getMessage()) // AccessDeniedException — already handled
                             );
                         })
                 )
