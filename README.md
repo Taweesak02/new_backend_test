@@ -1,4 +1,4 @@
-# Backend API
+# User Manager Backend API
 
 REST API ที่พัฒนาด้วย Spring Boot 4 รองรับการยืนยันตัวตนด้วย JWT, การควบคุมสิทธิ์ตาม Role และมีเอกสาร API ครบถ้วนผ่าน Swagger UI
 
