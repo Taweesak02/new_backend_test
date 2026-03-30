@@ -42,12 +42,21 @@ public class SecurityConfig {
                         // any logged-in user
                         .anyRequest().authenticated()
                 )
+
                 .exceptionHandling(ex-> ex
                         .authenticationEntryPoint((request, response, authException) -> {
                             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                             response.setContentType("application/json");
                             response.getWriter().write("{\"success\":false,\"message\":\"Unauthorized\"}");
 
+                        })
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            response.setContentType("application/json");
+                            response.setCharacterEncoding("UTF-8");
+                            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                            response.getWriter().write(
+                                    "{\"success\":false,\"message\":\"Unauthorized\"}"
+                            );
                         })
                 )
 
