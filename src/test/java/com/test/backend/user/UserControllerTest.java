@@ -76,7 +76,7 @@ class UserControllerTest {
                         .header("Authorization", "Bearer " + userToken))
                 .andExpect(status().isForbidden())
                 .andExpect(jsonPath("$.success").value(false))
-                .andExpect(jsonPath("$.message").value("Unauthorized"));;
+                .andExpect(jsonPath("$.message").value("Access denied"));;
     }
 
     // ✅ Case 12 — user can get their own profile

@@ -133,7 +133,7 @@ class AuthControllerTest {
         mockMvc.perform(get("/api/users"))
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.success").value(false))
-                .andExpect(jsonPath("$.message").value("Unauthorized"));
+                .andExpect(jsonPath("$.message").value("Full authentication is required to access this resource"));
     }
 
     // ✅ Case 9 — access protected route with invalid token

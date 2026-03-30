@@ -27,12 +27,9 @@ public class AuthController {
     private final AuthService authService;
 
     @Operation(summary = "Register new user",responses = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Success",
-                    content = @Content(examples = @ExampleObject(value = """
-                    {"success": true, "data": {"accessToken": "eyJ..."}}
-                """))),
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "409", description = "Email already exists")
-    })
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "201", description = "Create Success"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "409", description = "Email already exists"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400",description = "Invalid email format or Password have below 8 characters")})
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<AuthResponse>> register(
             @Valid @RequestBody RegisterRequest request) {
@@ -42,13 +39,10 @@ public class AuthController {
                 .body(ApiResponse.success(data, "Registered successfully"));
     }
 
-    @Operation(summary = "Login",responses = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Success",
-                    content = @Content(examples = @ExampleObject(value = """
-                    {"success": true, "data": {"accessToken": "eyJ...", "refreshToken": "eyJ..."}}
-                """))),
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Wrong credentials")
-    })
+    @Operation(summary = "Login User",responses = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Success"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Missing Password or Email"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Wrong credentials")})
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<AuthResponse>> login(
             @Valid @RequestBody LoginRequest request) {
@@ -56,6 +50,9 @@ public class AuthController {
         return ResponseEntity.ok(ApiResponse.success(data, "Login successful"));
     }
 
+    @Operation(summary = "Logout User",responses = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Success"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Invalid or Missing Token")})
     @PostMapping("/logout")
     public ResponseEntity<ApiResponse<?>> logout(
             @RequestHeader("Authorization") String authHeader) {
@@ -64,6 +61,9 @@ public class AuthController {
         return ResponseEntity.ok(ApiResponse.success(null, "Logged out successfully"));
     }
 
+    @Operation(summary = "Get Myself Data",responses = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Success"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid or Missing Token")})
     @GetMapping("/me")
     public ResponseEntity<ApiResponse<UserResponse>> me(
             @AuthenticationPrincipal UserDetails userDetails) {
@@ -71,6 +71,10 @@ public class AuthController {
         return ResponseEntity.ok(ApiResponse.success(data, "OK"));
     }
 
+    @Operation(summary = "Refresh Token",responses = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Success"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid or Missing Token"),
+    })
     @PostMapping("/refresh")
     public ResponseEntity<ApiResponse<AuthResponse>> refresh(
             @RequestBody RefreshRequest refreshToken) {
