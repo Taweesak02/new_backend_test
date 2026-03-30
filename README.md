@@ -103,19 +103,31 @@ Request:
 Response `200`:
 ```json
 {
-  "success": true,
-  "data": {
-    "id": 1,
-    "accessToken": "eyJ..."
-  }
+    "data": {
+        "accessToken": "eyJ...",
+        "refreshToken": "eyJh...",
+        "user": {
+            "createdAt": "2026-03-30T01:20:36.593958",
+            "email": "user@test.com",
+            "id": 4,
+            "isActive": true,
+            "name": "Test User",
+            "role": "user",
+            "updatedAt": "2026-03-30T01:20:36.593991"
+        }
+    },
+    "message": "Registered successfully",
+    "success": true,
+    "timestamp": "2026-03-30T01:20:36.602721982Z"
 }
 ```
 
 Response `409` (Email ซ้ำ):
 ```json
 {
-  "success": false,
-  "message": "Email already exists"
+    "message": "Email already exists",
+    "success": false,
+    "timestamp": "2026-03-30T01:21:41.822228945Z"
 }
 ```
 
@@ -132,11 +144,22 @@ Request:
 Response `200`:
 ```json
 {
-  "success": true,
-  "data": {
-    "accessToken": "eyJ...",
-    "refreshToken": "eyJ..."
-  }
+    "data": {
+        "accessToken": "eyJ...",
+        "refreshToken": "eyJ...",
+        "user": {
+            "createdAt": "2026-03-29T17:01:55",
+            "email": "admin@example.com",
+            "id": 1,
+            "isActive": true,
+            "name": "Admin",
+            "role": "admin",
+            "updatedAt": "2026-03-30T01:22:27.301486"
+        }
+    },
+    "message": "Login successful",
+    "success": true,
+    "timestamp": "2026-03-30T01:22:27.319505938Z"
 }
 ```
 
@@ -155,18 +178,37 @@ Response `200`:
 Response `200`:
 ```json
 {
-  "success": true,
-  "data": [
-    { "id": 1, "name": "Admin", "email": "admin@example.com" }
-  ]
+    "data": {
+        "pagination": {
+            "currentPage": 1,
+            "itemsPerPage": 10,
+            "totalItems": 4,
+            "totalPages": 1
+        },
+        "users": [
+            {
+                "createdAt": "2026-03-30T01:20:37",
+                "email": "user@test.com",
+                "id": 4,
+                "isActive": true,
+                "name": "Test User",
+                "role": "user",
+                "updatedAt": "2026-03-30T01:20:37"
+            },
+            ...
+        ]
+    },
+    "message": "OK",
+    "success": true,
+    "timestamp": "2026-03-30T01:24:08.248566738Z"
 }
 ```
 
 Response `403` (ไม่ใช่ Admin):
 ```json
 {
-  "success": false,
-  "message": "Forbidden"
+    "success": false,
+    "message": "Unauthorized"
 }
 ```
 
@@ -175,8 +217,9 @@ Response `403` (ไม่ใช่ Admin):
 Response `200`:
 ```json
 {
-  "success": true,
-  "message": "User deleted successfully"
+    "message": "User deleted",
+    "success": true,
+    "timestamp": "2026-03-30T01:29:50.987514880Z"
 }
 ```
 
@@ -195,11 +238,19 @@ Response `200`:
 ตัวอย่าง `400`:
 ```json
 {
-  "success": false,
-  "errors": {
-    "email": "must be a valid email",
-    "password": "size must be between 6 and 255"
-  }
+    "errors": [
+        {
+            "field": "email",
+            "message": "Invalid email format"
+        },
+        {
+            "field": "password",
+            "message": "Must be at least 8 characters"
+        }
+    ],
+    "message": "Validation failed",
+    "success": false,
+    "timestamp": "2026-03-30T01:32:15.781153009Z"
 }
 ```
 
