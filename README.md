@@ -207,8 +207,9 @@ Response `200`:
 Response `403` (ไม่ใช่ Admin):
 ```json
 {
+    "message": "Access denied",
     "success": false,
-    "message": "Unauthorized"
+    "timestamp": "2026-03-30T09:52:01.837844276Z"
 }
 ```
 
